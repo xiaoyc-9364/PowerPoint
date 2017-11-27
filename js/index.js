@@ -39,11 +39,27 @@ function PowerPoint(obj, opt) {		//参数：包裹元素，包含图片信息的
 		this.imgMain.addEventListener('click', function(event) {	//包含图片div绑定事件
 			var target = event.target;								//事件目标
 			if (target.nodeName.toLowerCase() === 'img') {			//判断目标类型
-				_this.createFrame(target);							//打开详情
-				_this.oClose.addEventListener('click', function() {	//关闭
-					_this.oFrame.style.display = 'none';
-					_this.oScreen.style.display = 'none';
+				if(!_this.oFrame) {									//判断是否已经存在详情框
+					_this.createFrame(target);							//打开详情
+				}			
+				_this.frameOpend();			
+				document.addEventListener('click', function(event) {
+					var newTarget = event.target;
+					var targetType = newTarget.nodeName.toLowerCase()
+					if (targetType !== 'img' && targetType !== 'p') {
+						_this.frameClose();
+					}
+					// var mouseX = event.clientX,
+					// 	mouseY = event.clientY;
+					// if (mouseX < _this.oFrame.offsetLeft || mouseX > (_this.oFrame.offsetLeft + _this.oFrame.offsetWidth)) {
+					// 	_this.frameClose();
+					// }
 				}, false);
+
+				_this.oClose.addEventListener('click', function() {	//关闭
+					_this.frameClose();
+				}, false);
+
 				var num = parseInt(target.getAttribute('index'));	//获取目标索引
 				_this.addDescription(_this.options.imgDescription[num], num + 1);	//添加描述及页码
 			}
@@ -81,3 +97,13 @@ function PowerPoint(obj, opt) {		//参数：包裹元素，包含图片信息的
 		this.imgMessage.innerHTML = str;						//图片信息添加内容
 		this.pageNum.innerHTML = index + " / " +  this.len;		//页码
 	};
+
+	PowerPoint.prototype.frameClose = function() {
+		this.oFrame.style.display = 'none';
+		this.oScreen.style.display = 'none';
+	}
+
+	PowerPoint.prototype.frameOpend = function() {
+		this.oFrame.style.display = 'block';
+		this.oScreen.style.display = 'block';
+	}
