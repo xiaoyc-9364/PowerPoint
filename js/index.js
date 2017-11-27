@@ -39,21 +39,23 @@ function PowerPoint(obj, opt) {		//参数：包裹元素，包含图片信息的
 		this.imgMain.addEventListener('click', function(event) {	//包含图片div绑定事件
 			var target = event.target;								//事件目标
 			if (target.nodeName.toLowerCase() === 'img') {			//判断目标类型
-				if(!_this.oFrame) {									//判断是否已经存在详情框
-					_this.createFrame(target);							//打开详情
-				}			
-				_this.frameOpend();			
+				_this.createFrame(target);							//打开详情
+
 				document.addEventListener('click', function(event) {
-					var newTarget = event.target;
-					var targetType = newTarget.nodeName.toLowerCase()
-					if (targetType !== 'img' && targetType !== 'p') {
-						_this.frameClose();
+					if (_this.oFrame) {
+						var newTarget = event.target;
+						var targetType = newTarget.nodeName.toLowerCase();
+						
+						if (targetType !== 'img' && targetType !== 'p') {
+							_this.frameClose();
+						}
+						// var mouseX = event.clientX,
+						// 	mouseY = event.clientY;
+						// if (mouseX < _this.oFrame.offsetLeft || mouseX > (_this.oFrame.offsetLeft + _this.oFrame.offsetWidth)) {
+						// 	_this.frameClose();
+						// }
 					}
-					// var mouseX = event.clientX,
-					// 	mouseY = event.clientY;
-					// if (mouseX < _this.oFrame.offsetLeft || mouseX > (_this.oFrame.offsetLeft + _this.oFrame.offsetWidth)) {
-					// 	_this.frameClose();
-					// }
+					
 				}, false);
 
 				_this.oClose.addEventListener('click', function() {	//关闭
@@ -99,11 +101,6 @@ function PowerPoint(obj, opt) {		//参数：包裹元素，包含图片信息的
 	};
 
 	PowerPoint.prototype.frameClose = function() {
-		this.oFrame.style.display = 'none';
-		this.oScreen.style.display = 'none';
-	}
-
-	PowerPoint.prototype.frameOpend = function() {
-		this.oFrame.style.display = 'block';
-		this.oScreen.style.display = 'block';
-	}
+		document.body.removeChild(this.oFrame);
+		document.body.removeChild(this.oScreen);
+	};
