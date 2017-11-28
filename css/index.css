@@ -11,10 +11,10 @@
 }
 .imgmain{
 	width: 60%;
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	bottom: 40px;
+	/*position: absolute;*/
+	/*left: 50%;*/
+	/*transform: translateX(-50%);*/
+	/*bottom: 40px;*/
 	display: -webkit-flex;
 	display: -moz-flex;
 	display: -ms-flex;
